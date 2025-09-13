@@ -1,14 +1,14 @@
 package com.zee.model;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,26 +21,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class CartItem {
-	
+public class Wishlist {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
-	@JsonIgnore
-	private Cart cart;
+	// A wishlist is associated with one user
+	@OneToOne
+	private User user;
 	
-	@ManyToOne
-	private Product product;
 	
-	private String size;
+	// A wishlist can contain multiple products and a product can be in multiple wishlists
+	@ManyToMany
+	private Set<Product> products = new HashSet<>();
 	
-	private int quantity = 1;
-	
-	private Integer mrpPrice;
-	
-	private Integer sellingPrice;
-	
-	private Long userId;
+
 }

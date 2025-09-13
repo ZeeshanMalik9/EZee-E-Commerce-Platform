@@ -1,18 +1,13 @@
 package com.zee.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,30 +19,24 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode  
-public class Review {
-	
+@EqualsAndHashCode
+public class VarificationCode {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
-	private String reviewText;
 	
-	@Column(nullable = false)
-	private double rating;
+	// whenever we login or signup we will generate a new otp and set the expiry time to 5 minutes from now
+	private String otp;
 	
-	@ElementCollection
-	private List<String> productImages;
 	
-	@JsonIgnore
-	@ManyToOne
-	private Product product;
+	private String email;
 	
-	@ManyToOne
+	// if user is null then the code is for  seller
+	@OneToOne
 	private User user;
 	
-	@Column(nullable = false)
-	private LocalDateTime createdAt=LocalDateTime.now();
-
+	// if seller is null then the code is for user 
+	@OneToOne
+	private Seller seller;
 }

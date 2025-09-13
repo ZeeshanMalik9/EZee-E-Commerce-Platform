@@ -2,15 +2,15 @@ package com.zee.model;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zee.dto.HomeCatagorySection;
+import com.zee.dto.PaymentMethod;
+import com.zee.dto.PaymentOrderStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,27 +20,14 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-public class CartItem {
-	
+public class HomeCatagory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
-	@JsonIgnore
-	private Cart cart;
+	private String name;
+	private String image;
+	private String catagoryId;
 	
-	@ManyToOne
-	private Product product;
-	
-	private String size;
-	
-	private int quantity = 1;
-	
-	private Integer mrpPrice;
-	
-	private Integer sellingPrice;
-	
-	private Long userId;
+	private HomeCatagorySection section;
 }

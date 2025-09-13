@@ -1,14 +1,10 @@
 package com.zee.model;
 
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,27 +16,29 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-public class CartItem {
-	
+public class SellerReport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne
-	@JsonIgnore
-	private Cart cart;
 	
-	@ManyToOne
-	private Product product;
+	@OneToOne
+	private Seller seller;
 	
-	private String size;
+	private Long totalEarngings = 0L;
 	
-	private int quantity = 1;
+	private Long totalSales = 0L;
 	
-	private Integer mrpPrice;
+	private Long totalRefunds = 0L;
 	
-	private Integer sellingPrice;
+	private long totalTax = 0L;
 	
-	private Long userId;
+	private Long netEarnings = 0L;
+	
+	private Integer totalOrders = 0;
+	
+	private Integer cancelledOrders = 0;
+	
+	private Integer totalTransactions = 0;
+	
 }

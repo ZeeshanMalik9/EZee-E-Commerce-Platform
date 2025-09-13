@@ -1,4 +1,4 @@
-package com.zee.model;
+ package com.zee.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,13 +24,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode  
+@NoArgsConstructor 
 public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	private String title;
 	
