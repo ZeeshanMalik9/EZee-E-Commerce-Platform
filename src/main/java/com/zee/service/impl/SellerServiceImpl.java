@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.zee.comfig.JwtProvider;
 import com.zee.dto.AccountStatus;
 import com.zee.dto.UserRole;
+import com.zee.exceptions.SellerException;
 import com.zee.model.Address;
 import com.zee.model.Seller;
 import com.zee.repository.AddressRepository;
@@ -64,9 +65,9 @@ public class SellerServiceImpl implements SellerService {
 	
 
 	@Override
-	public Seller getSellerById(Long id) throws Exception {
+	public Seller getSellerById(Long id) throws SellerException {
 		
-		return sellerRepository.findById(id).orElseThrow(()-> new Exception("Seller not found with id"));
+		return sellerRepository.findById(id).orElseThrow(()-> new SellerException("Seller not found with id"));
 	}
 
 	

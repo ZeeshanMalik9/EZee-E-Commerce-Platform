@@ -48,10 +48,6 @@ public class authServiceImpl implements AuthService{
 	private final CustomUserServiceImpl costomeUserService;
 	private final SellerRepository sellerRepository;
 
-
-    
-	
-	
 	
 	
 	
@@ -153,7 +149,7 @@ public class authServiceImpl implements AuthService{
 		String subject = "ComZee Login/Signup OTP";
 		String text = "your Login/Signup otp is - " +otp;
 		
-		emailService.sendVerificationOtpEmail(email.substring(SIGNING_PREFIX.length()), otp, subject, text);
+		emailService.sendVerificationOtpEmail(email, otp, subject, text);
 		
 		
 	}
@@ -198,8 +194,13 @@ public class authServiceImpl implements AuthService{
 	// In authServiceImpl.java
 
 	private Authentication authenticate(String username, String otp) {
-	    
+		String SELLER_PREFIX = "seller_";
 	    UserDetails userDetails = costomeUserService.loadUserByUsername(username);
+	    
+	    if(username.startsWith(SELLER_PREFIX)) {
+	    	username = username.substring(SELLER_PREFIX.length());
+		}
+	    
 	    
 	    if (userDetails == null) {
 	        throw new BadCredentialsException("Invalid Username or Email");
