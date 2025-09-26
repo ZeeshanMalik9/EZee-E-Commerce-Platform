@@ -107,52 +107,102 @@ Before running the application, ensure you have the following installed:
 
 ## API Documentation
 
-Zeemerse exposes a RESTful API for all operations. Below is a high-level overview of key endpoints. For detailed API documentation, refer to the Swagger UI (if enabled) or use Postman collections.
+Zeemerse exposes a comprehensive RESTful API for all e-commerce operations. Below is a detailed list of all endpoints grouped by functionality. Most endpoints require authentication via JWT token in the `Authorization` header. Roles include CUSTOMER, SELLER, and ADMIN, with access restricted based on roles.
 
 ### Authentication
-- `POST /auth/signup`: Register a new user
-- `POST /auth/signin`: User login
-- `POST /auth/sent/login-signup-otp`: Send OTP for login/signup
+- `POST /auth/signup`: Register a new user (body: SighnupRequest)
+- `POST /auth/signin`: User login (body: LonginRequest)
+- `POST /auth/sent/login-signup-otp`: Send OTP for login/signup (body: LoginOtpRequest)
 
 ### User Management
-- `GET /users/profile`: Get user profile
-- `PUT /users/profile`: Update user profile
+- `GET /users/profile`: Get authenticated user's profile (header: Authorization)
 
 ### Product Management
-- `GET /products/{id}`: Get product by ID
-- `GET /products/search`: Search products
-- `GET /products`: Get all products with filters (category, brand, price, etc.)
+- `GET /products/{productId}`: Get product by ID
+- `GET /products/search`: Search products (query param: query)
+- `GET /products`: Get all products with filters (query params: category, brand, color, size, minPrice, maxPrice, minDiscount, sort, stock, pageNumber)
 
-### Cart and Wishlist
-- `POST /cart/add`: Add item to cart
-- `GET /cart`: Get cart contents
-- `POST /wishlist/add`: Add to wishlist
+### Cart Management
+- `GET /api/cart`: Get authenticated user's cart (header: Authorization)
+- `PUT /api/cart/add`: Add item to cart (body: AddItemRequest, header: Authorization)
+- `DELETE /api/cart/item/{cartItemId}`: Remove item from cart (header: Authorization)
+- `PUT /api/cart/item/{cartItemId}`: Update cart item quantity (body: CartItem, header: Authorization)
 
-### Orders
-- `POST /orders`: Place an order
-- `GET /orders/{id}`: Get order details
-- `GET /orders/user`: Get user orders
+### Wishlist Management
+- `GET /api/wishlist`: Get authenticated user's wishlist (header: Authorization)
+- `POST /api/wishlist/add-product/{productId}`: Add product to wishlist (header: Authorization)
 
-### Payments
-- `POST /payments/create-order`: Create payment order
-- `POST /payments/verify`: Verify payment
+### Order Management
+- `POST /api/orders`: Create order (body: Address, query param: paymentMethod, header: Authorization)
+- `GET /api/orders/user`: Get authenticated user's order history (header: Authorization)
+- `GET /api/orders/{orderId}`: Get order by ID (header: Authorization)
+- `GET /api/orders/item/{orderItemId}`: Get order item by ID (header: Authorization)
+- `PUT /api/orders/{orderId}/cancel`: Cancel order (header: Authorization)
 
-### Sellers
-- `POST /sellers/products`: Add product (seller)
-- `GET /sellers/orders`: Get seller orders
+### Payment Management
+- `GET /api/payment/{paymentId}`: Handle payment success (query params: paymentLinkedId, header: Authorization)
 
-### Admin
-- `GET /admin/users`: Get all users
-- `POST /admin/coupons`: Create coupon
+### Seller Management
+- `POST /sellers/login`: Seller login (body: LonginRequest)
+- `PATCH /sellers/verify/{otp}`: Verify seller email with OTP
+- `POST /sellers`: Create new seller (body: Seller)
+- `GET /sellers/{id}`: Get seller by ID
+- `GET /sellers/profile`: Get authenticated seller's profile (header: Authorization)
+- `GET /sellers/report`: Get authenticated seller's report (header: Authorization)
+- `GET /sellers`: Get all sellers (query param: status)
+- `PATCH /sellers`: Update authenticated seller's details (body: Seller, header: Authorization)
+- `DELETE /sellers/{id}`: Delete seller by ID
 
-### Reviews
-- `POST /reviews`: Add review
+### Seller Product Management
+- `GET /sellers/products`: Get products by authenticated seller (header: Authorization)
+- `POST /sellers/products`: Create new product (body: CreateProductRequest, header: Authorization)
+- `DELETE /sellers/products/{productId}`: Delete product by ID
+- `PUT /sellers/products/{productId}`: Update product (body: Product)
 
-### Other
-- `GET /deals`: Get active deals
-- `GET /home/categories`: Get home categories
+### Seller Order Management
+- `GET /api/seller/orders`: Get orders for authenticated seller (header: Authorization)
+- `PATCH /api/seller/orders/{orderId}/status/{orderStatus}`: Update order status (header: Authorization)
 
-**Note**: All endpoints requiring authentication use JWT tokens in the Authorization header. Roles (CUSTOMER, SELLER, ADMIN) determine access levels.
+### Review Management
+- `GET /api/products/{productId}/review`: Get reviews for a product
+- `POST /api/products/{productId}/review`: Write a review (body: CreateReviewRequest, header: Authorization)
+- `PATCH /api/reviews/{reviewId}`: Update review (body: CreateReviewRequest, header: Authorization)
+- `DELETE /api/revviews/{reviewId}`: Delete review (header: Authorization) [Note: Typo in endpoint, should be /reviews]
+
+### Coupon Management
+- `POST /api/coupon/apply`: Apply or remove coupon (query params: apply, code, orderValue, header: Authorization)
+- `POST /api/coupon/admin/create`: Create coupon (admin only, body: Coupon)
+- `DELETE /api/coupon/admin/delete/{id}`: Delete coupon (admin only)
+- `GET /api/coupon/admin/all`: Get all coupons (admin only)
+
+### Deal Management
+- `POST /admin/deals`: Create deal (admin only, body: Deal)
+- `PATCH /admin/deals/{id}`: Update deal (admin only, body: Deal)
+- `DELETE /admin/deals/{id}`: Delete deal (admin only)
+
+### Home Category Management
+- `POST /home/categories`: Create home categories (body: List<HomeCatagory>)
+- `GET /admin/home-category`: Get all home categories (admin only)
+- `PATCH /admin/home-category/{id}`: Update home category (admin only, body: HomeCatagory)
+
+### Transaction Management
+- `GET /api/transactions/seller`: Get transactions for authenticated seller (header: Authorization)
+- `GET /api/transactions`: Get all transactions (admin only)
+
+### Admin Management
+- `PATCH /api/seller/{id}/status/{status}`: Update seller account status (admin only)
+
+### Home
+- `GET /`: Welcome message for the application
+
+**Notes**:
+- Authentication: Use JWT tokens in the `Authorization` header for protected endpoints.
+- Roles: Access is role-based (CUSTOMER, SELLER, ADMIN).
+- Request/Response: Most endpoints use JSON for request bodies and responses.
+- Pagination: Product listing supports pagination with `pageNumber`.
+- Filters: Product search supports multiple filters like category, price range, etc.
+- Payment Methods: Supported methods include RAZORPAY, STRIPE, and COD (Cash on Delivery).
+- For full API specs, use Postman or integrate Swagger UI if configured.
 
 ## Database Configuration
 
