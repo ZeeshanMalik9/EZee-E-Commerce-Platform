@@ -15,13 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.zee.comfig.JwtProvider;
-import com.zee.comfig.JwtTokenValidator;
 import com.zee.dto.UserRole;
 import com.zee.model.Cart;
 import com.zee.model.Seller;
 import com.zee.model.User;
 import com.zee.model.VarificationCode;
-import com.zee.repository.CartRepository;
+import com.zee.repository.CartRespository;
 import com.zee.repository.SellerRepository;
 import com.zee.repository.UserRepository;
 import com.zee.repository.VerificationCodeRepository;
@@ -37,12 +36,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class authServiceImpl implements AuthService{
 
-    private final JwtTokenValidator jwtTokenValidator;
 	
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtProvider jwtProvider;
-	private final CartRepository cartRepository;
+	private final CartRespository cartRepository;
 	private final VerificationCodeRepository verificationCodeRepository;
 	private final EmailService emailService;
 	private final CustomUserServiceImpl costomeUserService;
@@ -173,6 +171,7 @@ public class authServiceImpl implements AuthService{
 		
 		
 		Authentication authentication = authenticate(username, otp);
+		// it setes authentication object to global context which make this id card available to all other parts
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		
@@ -218,6 +217,10 @@ public class authServiceImpl implements AuthService{
 	    verificationCodeRepository.delete(verificationCode);
 
 	    // 4. If everything is correct, create the Authentication object
+	    // this authentication object is like ID card contians (principle , credential, authorites)
+	    // principle who the user is
+	    // credentials: the proof of identity
+	    // Authorites; what the user is allowed to do
 	    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 	

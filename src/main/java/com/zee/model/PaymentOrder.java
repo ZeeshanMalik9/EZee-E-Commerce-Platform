@@ -33,7 +33,7 @@ public class PaymentOrder {
 	
 	private PaymentMethod paymentMethod;
 	
-	private String paymentLinedId;
+	private String paymentLinkId;
 	
 	@ManyToOne
 	private User user;

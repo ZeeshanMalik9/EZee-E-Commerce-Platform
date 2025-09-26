@@ -28,6 +28,7 @@ import com.zee.request.LonginRequest;
 import com.zee.response.ApiResponse;
 import com.zee.response.AuthResponse;
 import com.zee.service.AuthService;
+import com.zee.service.SellerReportService;
 import com.zee.service.SellerService;
 import com.zee.service.impl.EmailService;
 import com.zee.util.OtpUtil;
@@ -44,24 +45,17 @@ public class SellerController {
 	private final AuthService authService;
 	private final EmailService emailService;
 	private final JwtProvider jwtProvider;
-	
-
+	private final SellerReportService sellerReportService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<AuthResponse> loginSeller(
 			@RequestBody LonginRequest req) throws Exception{
-		
-		
+	
 		String otp = req.getOtp();
 		String email = req.getEmail();
-	
 		req.setEmail("seller_"+email);
 		AuthResponse authResponse = authService.signing(req);
-		
-		return ResponseEntity.ok(authResponse);
-		
-		
-		
+		return ResponseEntity.ok(authResponse);		
 	}
 	
 	
@@ -91,6 +85,8 @@ public class SellerController {
 		VarificationCode verificationCode =  new VarificationCode();
 		verificationCode.setOtp(otp);
 		verificationCode.setEmail(seller.getEmail());
+		
+		verificationRepository.save(verificationCode);
 		
 		String subject = "Comzee Email verification Code";
 		
@@ -124,15 +120,14 @@ public class SellerController {
 	
 	
 	
-//	@GetMapping("/report")
-//	public ResponseEntity<SellerReport> getSellerReport(
-//			@RequestHeader("Authorization") String jwt) throws Exception{
-//		
-//		String email = jwtProvider.getEmailFromJwtToken(jwt);
-//		Seller seller = sellerService.getSellerByEmail(email);
-//		SellerReport report = sellerReportService.getSellerReport(seller);
-//		return new ResponseEntity<>(report, HttpStatus.OK);
-//	}
+	@GetMapping("/report")
+	public ResponseEntity<SellerReport> getSellerReport(
+			@RequestHeader("Authorization") String jwt) throws Exception{
+		  
+		Seller seller = sellerService.getSellerProfile(jwt);
+		SellerReport report = sellerReportService.getSellerReport(seller);
+		return new ResponseEntity<>(report, HttpStatus.OK);
+	}
 	
 	
 

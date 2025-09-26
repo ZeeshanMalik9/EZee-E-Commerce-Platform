@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// this acts as a response object of all error messages
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

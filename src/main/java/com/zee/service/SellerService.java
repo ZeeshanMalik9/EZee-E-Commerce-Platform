@@ -9,17 +9,17 @@ import com.zee.model.Seller;
 public interface SellerService {
 	
 	
-	Seller getSellerProfile(String jwt) throws Exception;
-	Seller createSeller(Seller seller) throws Exception;
+	Seller getSellerProfile(String jwt) throws SellerException;
+	Seller createSeller(Seller seller) throws SellerException;
 	Seller getSellerById(Long id) throws SellerException;
-	Seller getSellerByEmail(String email) throws Exception;
+	Seller getSellerByEmail(String email) throws SellerException;
 	
 	List<Seller> getAllSellers(AccountStatus status);
-	Seller updateSeller(Long id,Seller seller) throws Exception;
-	public void deleteSeller(Long id) throws Exception;
-	Seller VerifyEmail(String email, String otp) throws Exception;
+	Seller updateSeller(Long id,Seller seller) throws SellerException;
+	public void deleteSeller(Long id) throws SellerException;
+	Seller VerifyEmail(String email, String otp) throws SellerException;
 	// using this admin can modify seller account
-	Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws Exception;
+	Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws SellerException;
 	
 
 }

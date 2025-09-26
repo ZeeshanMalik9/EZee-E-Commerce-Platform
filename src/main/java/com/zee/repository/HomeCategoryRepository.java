@@ -3,9 +3,8 @@ package com.zee.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.zee.model.Cart;
-
+import com.zee.model.HomeCatagory;
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Long>{
+public interface HomeCategoryRepository extends JpaRepository<HomeCatagory, Long> {
 
 }
