@@ -6,6 +6,157 @@ Zeemerse is a robust, scalable e-commerce platform backend developed using Sprin
 
 The project started on 9/7/2025 and is designed to support a full-fledged e-commerce ecosystem with features like JWT-based authentication, multi-role user management (customers, sellers, admins), real-time payment processing via Razorpay and Stripe, and comprehensive order tracking.
 
+## Project Structure
+
+```
+zeemerse/
+├── .gitattributes
+├── .gitignore
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── README.md
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── zee/
+│   │   │           ├── ZeemerseApplication.java
+│   │   │           ├── comfig/
+│   │   │           │   ├── AppConfig.java
+│   │   │           │   ├── JWT_CONSTANT.java
+│   │   │           │   ├── JwtProvider.java
+│   │   │           │   └── JwtTokenValidator.java
+│   │   │           ├── controller/
+│   │   │           │   ├── AdminController.java
+│   │   │           │   ├── AdminCouponController.java
+│   │   │           │   ├── AuthController.java
+│   │   │           │   ├── CartController.java
+│   │   │           │   ├── DealController.java
+│   │   │           │   ├── HomeCategoryController.java
+│   │   │           │   ├── HomeController.java
+│   │   │           │   ├── OrderController.java
+│   │   │           │   ├── PaymentController.java
+│   │   │           │   ├── ProductController.java
+│   │   │           │   ├── ReviewController.java
+│   │   │           │   ├── SellerController.java
+│   │   │           │   ├── SellerOrderController.java
+│   │   │           │   ├── SellerProductController.java
+│   │   │           │   ├── TransactionController.java
+│   │   │           │   ├── UserController.java
+│   │   │           │   └── WishListController.java
+│   │   │           ├── dto/
+│   │   │           │   ├── AccountStatus.java
+│   │   │           │   ├── HomeCatagorySection.java
+│   │   │           │   ├── OrderStatus.java
+│   │   │           │   ├── PaymentMethod.java
+│   │   │           │   ├── PaymentOrderStatus.java
+│   │   │           │   ├── PaymentStatus.java
+│   │   │           │   └── UserRole.java
+│   │   │           ├── exceptions/
+│   │   │           │   ├── ErrorDetails.java
+│   │   │           │   ├── GlobalException.java
+│   │   │           │   ├── ProductException.java
+│   │   │           │   └── SellerException.java
+│   │   │           ├── model/
+│   │   │           │   ├── Address.java
+│   │   │           │   ├── BankDetails.java
+│   │   │           │   ├── BuisnessDetails.java
+│   │   │           │   ├── Cart.java
+│   │   │           │   ├── CartItem.java
+│   │   │           │   ├── Category.java
+│   │   │           │   ├── Coupon.java
+│   │   │           │   ├── Deal.java
+│   │   │           │   ├── Home.java
+│   │   │           │   ├── HomeCatagory.java
+│   │   │           │   ├── Order.java
+│   │   │           │   ├── OrderItem.java
+│   │   │           │   ├── PaymentDetails.java
+│   │   │           │   ├── PaymentOrder.java
+│   │   │           │   ├── Product.java
+│   │   │           │   ├── Review.java
+│   │   │           │   ├── Seller.java
+│   │   │           │   ├── SellerReport.java
+│   │   │           │   ├── Transaction.java
+│   │   │           │   ├── User.java
+│   │   │           │   └── VarificationCode.java
+│   │   │           ├── repository/
+│   │   │           │   ├── AddressRepository.java
+│   │   │           │   ├── CartItemRepository.java
+│   │   │           │   ├── CartRespository.java
+│   │   │           │   ├── CategoryRepository.java
+│   │   │           │   ├── CouponRepository.java
+│   │   │           │   ├── DealRepository.java
+│   │   │           │   ├── HomeCategoryRepository.java
+│   │   │           │   ├── OrderItemRepository.java
+│   │   │           │   ├── OrderRepository.java
+│   │   │           │   ├── PaymentOrderRepository.java
+│   │   │           │   ├── ProductRepository.java
+│   │   │           │   ├── ReviewRepository.java
+│   │   │           │   ├── SellerReportRepository.java
+│   │   │           │   ├── SellerRepository.java
+│   │   │           │   ├── TransactionRepository.java
+│   │   │           │   ├── UserRepository.java
+│   │   │           │   └── VerificationCodeRepository.java
+│   │   │           ├── request/
+│   │   │           │   ├── AddItemRequest.java
+│   │   │           │   ├── CreateProductRequest.java
+│   │   │           │   ├── CreateReviewRequest.java
+│   │   │           │   ├── LoginOtpRequest.java
+│   │   │           │   ├── LonginRequest.java
+│   │   │           │   └── SighnupRequest.java
+│   │   │           ├── response/
+│   │   │           │   ├── ApiResponse.java
+│   │   │           │   ├── AuthResponse.java
+│   │   │           │   └── PaymentLinkResponse.java
+│   │   │           ├── service/
+│   │   │           │   ├── AuthService.java
+│   │   │           │   ├── CartItemService.java
+│   │   │           │   ├── CartService.java
+│   │   │           │   ├── CouponService.java
+│   │   │           │   ├── DealService.java
+│   │   │           │   ├── HomeCategorService.java
+│   │   │           │   ├── HomeService.java
+│   │   │           │   ├── OrderService.java
+│   │   │           │   ├── PaymentService.java
+│   │   │           │   ├── ProductService.java
+│   │   │           │   ├── ReviewService.java
+│   │   │           │   ├── SellerReportService.java
+│   │   │           │   ├── SellerService.java
+│   │   │           │   ├── TransactionService.java
+│   │   │           │   └── UserService.java
+│   │   │           ├── service/impl/
+│   │   │           │   ├── authServiceImpl.java
+│   │   │           │   ├── CartItemServiceImpl.java
+│   │   │           │   ├── CartServiceImpl.java
+│   │   │           │   ├── CouponServiceImpl.java
+│   │   │           │   ├── CustomUserServiceImpl.java
+│   │   │           │   ├── DealServiceImpl.java
+│   │   │           │   ├── EmailService.java
+│   │   │           │   ├── HomeCategoryServiceImpl.java
+│   │   │           │   ├── HomeServiceImpl.java
+│   │   │           │   ├── OrderServiceImpl.java
+│   │   │           │   ├── PaymentServiceImpl.java
+│   │   │           │   ├── ProductServiceImpl.java
+│   │   │           │   ├── ReviewServiceImpl.java
+│   │   │           │   ├── SellerReportServiceImpl.java
+│   │   │           │   ├── SellerServiceImpl.java
+│   │   │           │   ├── TransactionServiceImpl.java
+│   │   │           │   └── UserServiceImpl.java
+│   │   │           ├── util/
+│   │   │           │   └── OtpUtil.java
+│   │   │           └── Wishlist.java
+│   │   └── resources/
+│   │       ├── static/
+│   │       └── templates/
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── zee/
+│                   └── ZeemerseApplicationTests.java
+└── target/
+```
+
 ## Features
 
 Zeemerse offers a wide range of features essential for an e-commerce platform:
@@ -206,10 +357,139 @@ Zeemerse exposes a comprehensive RESTful API for all e-commerce operations. Belo
 
 ## Database Configuration
 
-- **Database**: MySQL
-- **ORM**: JPA with Hibernate
-- **Schema**: Auto-generated based on entities (models like User, Product, Order).
-- Ensure the database is running and accessible. Use `spring.jpa.hibernate.ddl-auto=update` for development (creates/updates tables automatically).
+- **Database**: MySQL (configured via MySQL Connector/J)
+- **ORM**: JPA with Hibernate (for object-relational mapping and schema generation)
+- **Schema**: Auto-generated based on JPA entities in the `com.zee.model` package. Tables are created/updated automatically using `spring.jpa.hibernate.ddl-auto=update` in development. In production, use `validate` or `none` and manage migrations manually (e.g., via Flyway or Liquibase).
+
+### Key Entities and Relationships
+
+The database schema is derived from the following main entities, which represent the core data models for the e-commerce platform. Relationships are defined using JPA annotations (e.g., @OneToMany, @ManyToOne, @ManyToMany). Below is a summary of key entities, their primary fields, and relationships:
+
+#### User
+- **Table**: `user`
+- **Fields**:
+  - `id` (Long, @Id, auto-generated)
+  - `password` (String, write-only for security)
+  - `email` (String, unique)
+  - `fullName` (String)
+  - `mobile` (String)
+  - `role` (UserRole enum: ROLE_CUSTOMER, ROLE_SELLER, ROLE_ADMIN)
+- **Relationships**:
+  - One-to-Many: `addresses` (Set<Address>) – User's shipping/billing addresses
+  - Many-to-Many: `usedCoupons` (Set<Coupon>) – Coupons applied by the user (self-referential for usage tracking)
+- **Purpose**: Represents customers, sellers, and admins with role-based access.
+
+#### Product
+- **Table**: `product`
+- **Fields**:
+  - `id` (Long, @Id, auto-generated)
+  - `title` (String)
+  - `description` (String)
+  - `mrpPrice` (int) – Maximum Retail Price
+  - `sellingPrice` (int)
+  - `discountPercent` (int)
+  - `quantity` (int) – Stock availability
+  - `color` (String)
+  - `images` (List<String>, @ElementCollection) – Product images stored as a separate table (`product_images`)
+  - `numRatings` (int)
+  - `createdAt` (LocalDateTime)
+  - `sizes` (String, comma-separated e.g., "S,M,L")
+- **Relationships**:
+  - Many-to-One: `category` (Category) – Product category
+  - Many-to-One: `seller` (Seller) – Owning seller (cascade delete on seller removal)
+  - One-to-Many: `reviews` (List<Review>, bidirectional, cascade all, orphan removal) – Product reviews
+- **Purpose**: Core product catalog with inventory and pricing details.
+
+#### Order
+- **Table**: `order` (inferred from OrderService and controllers; full entity details include order items, status, etc.)
+- **Fields** (based on usage):
+  - `id` (Long, @Id)
+  - `orderItems` (Set<OrderItem>)
+  - `totalSellingPrice` (calculated)
+  - `orderStatus` (OrderStatus enum)
+  - `shippingAddress` (Address)
+  - `paymentOrder` (PaymentOrder)
+  - `sellerId` (Long, reference to Seller)
+- **Relationships**:
+  - One-to-Many: `orderItems` (OrderItem)
+  - Many-to-One: `user` (User)
+  - Many-to-One: `seller` (Seller)
+  - One-to-One: `paymentOrder` (PaymentOrder)
+- **Purpose**: Represents user purchases, linking products, payments, and shipping.
+
+#### Cart
+- **Table**: `cart`
+- **Fields**:
+  - `id` (Long, @Id)
+  - `user` (User)
+- **Relationships**:
+  - One-to-Many: `cartItems` (CartItem)
+  - Many-to-One: `user` (User)
+- **Purpose**: Temporary shopping basket for users.
+
+#### CartItem
+- **Table**: `cart_item`
+- **Fields**:
+  - `id` (Long, @Id)
+  - `quantity` (int)
+  - `size` (String)
+- **Relationships**:
+  - Many-to-One: `cart` (Cart)
+  - Many-to-One: `product` (Product)
+- **Purpose**: Individual items in a user's cart.
+
+#### Seller
+- **Table**: `seller`
+- **Fields**:
+  - `id` (Long, @Id)
+  - `email` (String)
+  - `fullName` (String)
+  - `mobile` (String)
+  - `status` (AccountStatus enum)
+  - `businessDetails` (BuisnessDetails, embedded)
+  - `bankDetails` (BankDetails, embedded)
+- **Relationships**:
+  - One-to-Many: `products` (Product, bidirectional)
+  - One-to-One: `sellerReport` (SellerReport)
+- **Purpose**: Vendor accounts for product sellers.
+
+#### PaymentOrder
+- **Table**: `payment_order`
+- **Fields**:
+  - `id` (Long, @Id)
+  - `amount` (double)
+  - `paymentLinkId` (String)
+  - `paymentStatus` (PaymentStatus enum)
+- **Relationships**:
+  - One-to-Many: `orders` (Order)
+  - Many-to-One: `user` (User)
+- **Purpose**: Handles payment transactions via Razorpay/Stripe/COD.
+
+#### Other Key Entities
+- **Address**: Shipping/billing details (street, city, state, zipCode, country, type enum).
+- **Category**: Product categories (id, name).
+- **Review**: User ratings/reviews (id, reviewText, reviewRating, createdAt; linked to User and Product).
+- **Coupon**: Promo codes (id, code, discountAmount, expiryDate; linked to users via usedCoupons).
+- **Deal**: Promotional deals (id, title, description, discountPercent, expiryDate).
+- **Transaction**: Payment logs (id, amount, status; linked to Order and Seller).
+- **HomeCatagory**: Homepage sections (id, title, products list).
+- **SellerReport**: Seller analytics (totalOrders, totalSales, totalEarnings, cancelledOrders, totalRefunds).
+- **VerificationCode**: OTP storage (id, otp, email).
+
+**Notes**:
+- All entities use Lombok for getters/setters and JPA annotations for persistence.
+- Relationships ensure referential integrity (e.g., cascading deletes for products on seller removal).
+- Indexes: Auto-generated on foreign keys; add custom indexes for performance (e.g., on email, product title).
+- Ensure the database is running and accessible. Update `application.properties` with your MySQL credentials:
+  ```
+  spring.datasource.url=jdbc:mysql://localhost:3306/zeemerse_db?createDatabaseIfNotExist=true
+  spring.datasource.username=your-username
+  spring.datasource.password=your-password
+  spring.jpa.hibernate.ddl-auto=update
+  spring.jpa.show-sql=true
+  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+  ```
+- For production, export the schema using tools like MySQL Workbench and manage versions.
 
 ## Security
 
