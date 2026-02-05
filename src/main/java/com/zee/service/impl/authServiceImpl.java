@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.zee.comfig.JwtProvider;
+import com.zee.config.JwtProvider;
 import com.zee.dto.UserRole;
 import com.zee.model.Cart;
 import com.zee.model.Seller;

@@ -1,4 +1,4 @@
-package com.zee.comfig;
+package com.zee.config;
 
 import java.io.IOException;
 import java.util.ArrayList;

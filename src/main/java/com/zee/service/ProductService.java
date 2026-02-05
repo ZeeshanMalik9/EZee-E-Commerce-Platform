@@ -10,12 +10,17 @@ import com.zee.model.Seller;
 import com.zee.request.CreateProductRequest;
 
 public interface ProductService {
-	
+
 	public Product createProduct(CreateProductRequest req, Seller seller);
+
 	public void deleteProduct(Long productId) throws ProductException;
-	public Product updateProduct(Long productId, Product product) throws ProductException;
+
+	public Product updateProduct(Long productId, CreateProductRequest product) throws ProductException;
+
 	public Product findProductById(Long productId) throws ProductException;
+
 	List<Product> searchProducts(String query);
+
 	public Page<Product> getAllProducts(
 			String category,
 			String brand,
@@ -26,7 +31,7 @@ public interface ProductService {
 			Integer minDiscount,
 			String sort,
 			String stock,
-			Integer pageNumber
-			);
+			Integer pageNumber);
+
 	List<Product> getProductBySellerId(Long sellerId);
 }

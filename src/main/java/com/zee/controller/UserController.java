@@ -14,20 +14,30 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/api")
 public class UserController {
-	
+
 	private final UserService userService;
-	
-	
+
 	// fetching details from database
 	@GetMapping("/users/profile")
 	public ResponseEntity<User> getUserHandler(
-			@RequestHeader("Authorization") String jwt) throws Exception{
-		
+			@RequestHeader("Authorization") String jwt) throws Exception {
+
 		User user = userService.findUserByJwtToken(jwt);
-		
+
 		return ResponseEntity.ok(user);
+	}
+
+	@org.springframework.web.bind.annotation.PostMapping("/users/address")
+	public ResponseEntity<User> addAddressHandler(
+			@org.springframework.web.bind.annotation.RequestBody com.zee.model.Address address,
+			@RequestHeader("Authorization") String jwt) throws Exception {
+
+		User user = userService.findUserByJwtToken(jwt);
+		User updatedUser = userService.addAddress(user, address);
+
+		return ResponseEntity.ok(updatedUser);
 	}
 
 }

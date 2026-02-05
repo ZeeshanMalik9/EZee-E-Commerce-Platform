@@ -1,4 +1,4 @@
-package com.zee.comfig;
+package com.zee.config;
 
 public class JWT_CONSTANT {
 	public static final String SECRET_KEY = "MySuperSecureAndVeryLongSecretKeyForThisECommerceApplication123q";

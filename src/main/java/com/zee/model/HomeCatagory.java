@@ -27,7 +27,7 @@ public class HomeCatagory {
 	
 	private String name;
 	private String image;
-	private String catagoryId;
+	private String categoryId;
 	
 	private HomeCatagorySection section;
 }

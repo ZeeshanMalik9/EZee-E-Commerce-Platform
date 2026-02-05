@@ -4,10 +4,12 @@ import org.springframework.stereotype.Service;
 
 import com.zee.model.Cart;
 import com.zee.model.CartItem;
+import com.zee.model.Coupon;
 import com.zee.model.Product;
 import com.zee.model.User;
 import com.zee.repository.CartItemRepository;
 import com.zee.repository.CartRespository;
+import com.zee.repository.CouponRepository;
 import com.zee.service.CartService;
 
 import lombok.RequiredArgsConstructor;
@@ -15,67 +17,87 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
-	
+
 	private final CartRespository cartRepository;
 	private final CartItemRepository cartItemRepository;
+	private final CouponRepository couponRepository;
 
 	@Override
 	public CartItem addCartItem(User user, Product product, String size, int quantity) {
-	
+
 		Cart cart = findUserCart(user);
-		
+
 		CartItem isPresent = cartItemRepository.findByCartAndProductAndSize(cart, product, size);
-		
-		if(isPresent == null) {
+
+		if (isPresent == null) {
 			CartItem cartItem = new CartItem();
 			cartItem.setProduct(product);
 			cartItem.setQuantity(quantity);
 			cartItem.setSize(size);
 			cartItem.setUserId(user.getId());
-			
+
 			int totalPrice = quantity * product.getSellingPrice();
 			cartItem.setSellingPrice(totalPrice);
-			cartItem.setMrpPrice(quantity *product.getMrpPrice());
+			cartItem.setMrpPrice(quantity * product.getMrpPrice());
 			cart.getCartItems().add(cartItem);
 			cartItem.setCart(cart);
-			
-			return cartItemRepository.save(cartItem); 
-			
+
+			return cartItemRepository.save(cartItem);
+
 		}
 		return isPresent;
 	}
 
 	@Override
 	public Cart findUserCart(User user) {
-		
+
 		Cart cart = cartRepository.findByUserId(user.getId());
-		
+
+		if (cart == null) {
+			Cart newCart = new Cart();
+			newCart.setUser(user);
+			cart = cartRepository.save(newCart);
+		}
+
 		int totalPrice = 0;
 		int totalDiscountedPrice = 0;
 		int totalItem = 0;
-		
-		for(CartItem cartItem: cart.getCartItems()) {
+
+		for (CartItem cartItem : cart.getCartItems()) {
 			totalPrice += cartItem.getMrpPrice();
 			totalDiscountedPrice += cartItem.getSellingPrice();
-			totalItem +=cartItem.getQuantity();
+			totalItem += cartItem.getQuantity();
 		}
-		
+
 		cart.setTotalMrpPrice(totalPrice);
 		cart.setTotalItems(totalItem);
-		cart.setDiscount(calculateDiscountPercentage(totalPrice,totalDiscountedPrice));
+		cart.setTotalSellingPrice(totalDiscountedPrice);
+
+		if (cart.getCouponCode() != null) {
+			Coupon coupon = couponRepository.findByCode(cart.getCouponCode());
+			if (coupon != null && coupon.isActive()) {
+				double discountAmount = (cart.getTotalSellingPrice() * coupon.getDiscount()) / 100;
+				cart.setTotalSellingPrice(cart.getTotalSellingPrice() - discountAmount);
+			} else {
+				// Coupon invalid or expired, remove it
+				cart.setCouponCode(null);
+			}
+		}
+
+		cart.setDiscount(calculateDiscountPercentage(totalPrice, cart.getTotalSellingPrice()));
 		cart.setTotalItems(totalItem);
-		
-		return cart;
+
+		return cartRepository.save(cart);
 	}
-	
-	private int calculateDiscountPercentage(double mrpPrice,double sellingPrice) {
-		if(mrpPrice<=0) {
+
+	private int calculateDiscountPercentage(double mrpPrice, double sellingPrice) {
+		if (mrpPrice <= 0) {
 			return 0;
 		}
-		double discount = mrpPrice-sellingPrice;
-		double discountPercentge = (discount/mrpPrice)*100;
-		
-		return (int)discountPercentge;
+		double discount = mrpPrice - sellingPrice;
+		double discountPercentge = (discount / mrpPrice) * 100;
+
+		return (int) discountPercentge;
 	}
 
 }

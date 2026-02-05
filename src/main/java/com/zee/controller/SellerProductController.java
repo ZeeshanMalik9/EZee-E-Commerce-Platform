@@ -29,65 +29,57 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/sellers/products")
 public class SellerProductController {
-	
+
 	private final ProductService productService;
 	private final SellerService sellerService;
 
 	@GetMapping()
 	public ResponseEntity<List<Product>> getProductBySellerId(
 			@RequestHeader("Authorization") String jwt) throws ProductException, SellerException {
-		
+
 		Seller seller = sellerService.getSellerProfile(jwt);
-		
+
 		List<Product> product = productService.getProductBySellerId(seller.getId());
-		return new ResponseEntity<>(product,HttpStatus.OK);		
+		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
-	
-	
+
 	@PostMapping()
 	public ResponseEntity<Product> createProduct(
 			@RequestBody CreateProductRequest request,
-			@RequestHeader("Authorization")String jwt)
+			@RequestHeader("Authorization") String jwt)
 			throws Exception {
-		
-		System.out.println("error"+jwt);
-		
+
+		System.out.println("error" + jwt);
+
 		Seller seller = sellerService.getSellerProfile(jwt);
-		
+
 		Product product = productService.createProduct(request, seller);
-		return new ResponseEntity<>(product,HttpStatus.OK);
-		
+		return new ResponseEntity<>(product, HttpStatus.OK);
+
 	}
-	
-	
+
 	@DeleteMapping("/{productId}")
 	public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
 		try {
 			productService.deleteProduct(productId);
 			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		catch(ProductException e) {
+		} catch (ProductException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	
+
 	@PutMapping("/{productId}")
 	public ResponseEntity<Product> updateProduct(
 			@PathVariable Long productId,
-			@RequestBody Product product) {
-		
+			@RequestBody CreateProductRequest product) {
+
 		try {
 			Product updatedProduct = productService.updateProduct(productId, product);
-			return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
-		}
-		catch(ProductException p) {
+			return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+		} catch (ProductException p) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
-		
-		
-	
-	
+
 }

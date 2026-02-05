@@ -16,6 +16,7 @@ public class OtpUtil {
 			otp.append(random.nextInt(10));
 		}
 		
+		System.out.println("Generated OTP: " + otp.toString());
 		return otp.toString();
 	}
 
