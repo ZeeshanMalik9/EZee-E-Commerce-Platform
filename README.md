@@ -1,4 +1,4 @@
-# Zeemerse E-Commerce Backend
+# Zeemerse-Multi-Vendor E-Commerce Platform
 
 ## Overview
 
